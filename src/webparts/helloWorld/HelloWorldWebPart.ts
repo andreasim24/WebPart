@@ -52,6 +52,7 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
   }
 
   protected onInit(): Promise<void> {
+    // just want to try set default value from onInit instead of manifest.json
     this.properties.processorType = "I7";
     return this._getEnvironmentMessage().then(message => {
       this._environmentMessage = message;
@@ -61,22 +62,6 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
   protected get disableReactivePropertyChanges(): boolean {
     return true;
   }
-
-  // private _renderList(items: ISPListItem[]): void {
-  //   let html: string = "";
-  //   items.forEach((item: ISPListItem) => {
-  //     html += `
-  //   <ul class="${styles.list}">
-  //     <li class="${styles.listItem}">
-  //       <span class="ms-font-l">${item.Title}</span>
-  //     </li>
-  //   </ul>`;
-  //   });
-
-  //   const listContainer: Element =
-  //     this.domElement.querySelector("#spListContainer");
-  //   listContainer.innerHTML = html;
-  // }
 
   private _getEnvironmentMessage(): Promise<string> {
     if (!!this.context.sdks.microsoftTeams) {

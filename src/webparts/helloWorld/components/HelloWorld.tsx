@@ -61,14 +61,6 @@ export default class HelloWorld extends React.Component<
       userDisplayName
     } = this.props;
 
-    // const items: JSX.Element[] = this.state.items.map(
-    //   (item: ISPListItem, i: number): JSX.Element => {
-    //     return (
-
-    //     );
-    //   }
-    // );
-
     return (
       <section
         className={`${styles.helloWorld} ${
@@ -98,11 +90,13 @@ export default class HelloWorld extends React.Component<
           <div>Processor Type: {processorType}</div>
         </div>
         <h2>This is my Sharepoint List Items :</h2>
+        {/* Try List Component from fabric-ui */}
         <List items={this.state.items} onRenderCell={this._onRenderList} />
         <div>{environmentMessage}</div>
         <div>
           Loading from: <strong>{escape(title)}</strong>
         </div>
+        {/* Try Button Component from fabric-ui */}
         <PrimaryButton>Primary Button</PrimaryButton>
       </section>
     );
