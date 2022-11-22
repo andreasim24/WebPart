@@ -31,7 +31,7 @@ class ItemList extends React.Component<IItemListProps, IListItemState> {
   private async _getListData(): Promise<ISPListItem[]> {
     try {
       const response = await this.props.spHttpClient.get(
-        "https://xq0nb.sharepoint.com/sites/TestSite/_api/web/lists/getByTitle('To do list')/items?$select=Title,Status",
+        `${this.props.webUrl}/_api/web/lists/getByTitle('To do list')/items?$select=Title,Status`,
         SPHttpClient.configurations.v1
       );
 
@@ -119,7 +119,10 @@ export default class ToDoList extends React.Component<IToDoListProps, {}> {
         <h2>
           {strings.ToDoListHeading} {escape(userDisplayName)}
         </h2>
-        <ItemList spHttpClient={this.props.spHttpClient} />
+        <ItemList
+          spHttpClient={this.props.spHttpClient}
+          webUrl={this.props.websiteUrl}
+        />
       </section>
     );
   }
