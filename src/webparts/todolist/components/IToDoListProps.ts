@@ -1,13 +1,6 @@
 import { SPHttpClient } from "@microsoft/sp-http";
 
-export interface IHelloWorldProps {
-  productName: string;
-  productDescription: string;
-  productQuantity: number;
-  isCertified: boolean;
-  title: string;
-  rating: number;
-  processorType: string;
+export interface IToDoListProps {
   websiteUrl: string;
   spHttpClient: SPHttpClient;
   isDarkTheme: boolean;

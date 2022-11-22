@@ -3,43 +3,27 @@ import * as ReactDom from "react-dom";
 import { Version } from "@microsoft/sp-core-library";
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneChoiceGroup,
-  PropertyPaneSlider,
-  PropertyPaneTextField,
-  PropertyPaneToggle
+  PropertyPaneTextField
 } from "@microsoft/sp-property-pane";
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import { IReadonlyTheme } from "@microsoft/sp-component-base";
 
-import * as strings from "HelloWorldWebPartStrings";
-import HelloWorld from "./components/HelloWorld";
-import { IHelloWorldProps } from "./components/IHelloWorldProps";
+import * as strings from "ToDoListWebPartStrings";
+import ToDoList from "./components/ToDoList";
+import { IToDoListProps } from "./components/IToDoListProps";
 
-export interface IHelloWorldWebPartProps {
-  productName: string;
-  productDescription: string;
-  productQuantity: number;
-  isCertified: boolean;
-  rating: number;
-  processorType: string;
-  title: string;
+export interface IToDoListWebPartProps {
+  description: string;
 }
 
-export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
+export default class ToDoListWebPart extends BaseClientSideWebPart<IToDoListWebPartProps> {
   private _isDarkTheme: boolean = false;
   private _environmentMessage: string = "";
 
   public render(): void {
-    const element: React.ReactElement<IHelloWorldProps> = React.createElement(
-      HelloWorld,
+    const element: React.ReactElement<IToDoListProps> = React.createElement(
+      ToDoList,
       {
-        productName: this.properties.productName,
-        productDescription: this.properties.productDescription,
-        productQuantity: this.properties.productQuantity,
-        isCertified: this.properties.isCertified,
-        title: this.context.pageContext.web.title,
-        rating: this.properties.rating,
-        processorType: this.properties.processorType,
         websiteUrl: this.context.pageContext.web.absoluteUrl,
         spHttpClient: this.context.spHttpClient,
         isDarkTheme: this._isDarkTheme,
@@ -52,8 +36,6 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
   }
 
   protected onInit(): Promise<void> {
-    // just want to try set default value from onInit instead of manifest.json
-    this.properties.processorType = "I7";
     return this._getEnvironmentMessage().then(message => {
       this._environmentMessage = message;
     });
@@ -135,46 +117,14 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
       pages: [
         {
           header: {
-            description: "Product Catalog"
+            description: "To Do List Description"
           },
           groups: [
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField("productName", {
-                  label: "Product Name"
-                }),
-                PropertyPaneTextField("productDescription", {
-                  label: "Product Description",
-                  multiline: true
-                }),
-                PropertyPaneTextField("productQuantity", {
-                  label: "Product Quantity",
-                  resizable: false,
-                  deferredValidationTime: 3000,
-                  placeholder: "Please enter product Quantity"
-                }),
-                PropertyPaneToggle("isCertified", {
-                  key: "isCertified",
-                  offText: "Not certified",
-                  onText: "Certified!",
-                  label: "Please certified first"
-                }),
-                PropertyPaneSlider("rating", {
-                  label: "Rating",
-                  min: 1,
-                  max: 10,
-                  step: 1,
-                  showValue: true,
-                  value: 5
-                }),
-                PropertyPaneChoiceGroup("processorType", {
-                  label: "Processor",
-                  options: [
-                    { key: "I5", text: "Intel I5" },
-                    { key: "I7", text: "Intel I7", checked: true },
-                    { key: "I9", text: "Intel I9" }
-                  ]
+                PropertyPaneTextField("description", {
+                  label: "Description"
                 })
               ]
             }

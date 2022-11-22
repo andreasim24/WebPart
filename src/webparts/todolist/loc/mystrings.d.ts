@@ -1,4 +1,4 @@
-declare interface IHelloWorldWebPartStrings {
+declare interface IToDoListWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   DescriptionFieldLabel: string;
@@ -10,9 +10,10 @@ declare interface IHelloWorldWebPartStrings {
   AppTeamsTabEnvironment: string;
   AppOfficeEnvironment: string;
   AppOutlookEnvironment: string;
+  ToDoListHeading: string;
 }
 
-declare module 'HelloWorldWebPartStrings' {
-  const strings: IHelloWorldWebPartStrings;
+declare module "ToDoListWebPartStrings" {
+  const strings: IToDoListWebPartStrings;
   export = strings;
 }

@@ -1,6 +1,6 @@
 @import "~@fluentui/react/dist/sass/References.scss";
 
-.helloWorld {
+.todoList {
   overflow: hidden;
   padding: 1em;
   color: "[theme:bodyText, default: #323130]";
@@ -39,13 +39,11 @@
 
 .list {
   color: #333333;
-  font-family: "Segoe UI Regular WestEuropean", "Segoe UI", Tahoma, Arial,
-    sans-serif;
   font-size: 14px;
   font-weight: normal;
   box-sizing: border-box;
-  margin: 10;
-  padding: 10;
+  margin: 10px;
+  padding: 10px;
   line-height: 50px;
   list-style-type: none;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
@@ -54,13 +52,7 @@
 .listItem {
   color: #333333;
   vertical-align: center;
-  font-family: "Segoe UI Regular WestEuropean", "Segoe UI", Tahoma, Arial,
-    sans-serif;
-  font-size: 14px;
-  font-weight: normal;
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
   box-shadow: none;
   *zoom: 1;
   padding: 9px 28px 3px;
@@ -75,7 +67,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 2rem;
+  border-radius: 1rem;
 }
 
 .itemPending {
@@ -90,6 +82,11 @@
 
 .itemActive {
   background-color: rgba(40, 40, 212, 0.84);
+  color: white;
+}
+
+.itemOverdue {
+  background-color: rgba(200, 74, 36, 0.84);
   color: white;
 }
 
