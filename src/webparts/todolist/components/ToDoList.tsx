@@ -1,129 +1,213 @@
 import * as React from "react";
-import styles from "./ToDoList.module.scss";
-import { IToDoListProps } from "./IToDoListProps";
-import { IItemListProps } from "./IItemListProps";
 import { escape } from "@microsoft/sp-lodash-subset";
-import { SPHttpClient } from "@microsoft/sp-http";
-import { Icon, List } from "office-ui-fabric-react";
 import * as strings from "ToDoListWebPartStrings";
+import {
+  ISPListItem,
+  IItemListProps,
+  IToDoListProps
+} from "../../../interfaces";
+import { getSP } from "../../../pnpjsConfig";
+import { SPFI } from "@pnp/sp";
+import {
+  DetailsList,
+  DetailsListLayoutMode,
+  IColumn
+} from "@fluentui/react/lib/DetailsList";
+import { Text } from "@fluentui/react/lib/Text";
+import { IStackTokens, Stack, StackItem } from "@fluentui/react/lib/Stack";
+import { mergeStyles } from "@fluentui/react/lib/Styling";
+import { PrimaryButton } from "@fluentui/react/lib/Button";
 
-export interface ISPListItem {
-  Title: string;
-  Id: string;
-  Status: string;
-}
+const ItemListStackTokens: IStackTokens = {
+  childrenGap: 15,
+  padding: 10
+};
 
-export interface IListItemState {
-  items: ISPListItem[];
-  errorMessage: any;
-}
+const ItemList: React.FC<IItemListProps> = (props: IItemListProps) => {
+  const [items, setItems] = React.useState<ISPListItem[]>([]);
+  const [errorMessage, setErrorMessage] = React.useState(null);
+  const columns: IColumn[] = [
+    {
+      key: "column1",
+      name: "Title",
+      fieldName: "Title",
+      minWidth: 100,
+      maxWidth: 200,
+      isResizable: true
+    },
+    {
+      key: "column2",
+      name: "Due Date",
+      minWidth: 100,
+      maxWidth: 200,
+      isResizable: true,
+      onRender: item => <Stack>{item.FieldValuesAsText.DueDate}</Stack>
+    },
+    {
+      key: "column3",
+      name: "Status",
+      fieldName: "Status",
+      minWidth: 100,
+      maxWidth: 200,
+      isResizable: true,
+      onRender: (item: ISPListItem) => {
+        switch (item.Status) {
+          case "Pending":
+            return (
+              <Stack
+                horizontalAlign="center"
+                verticalAlign="center"
+                className={mergeStyles({
+                  backgroundColor: "#ffe092",
+                  color: "#997825",
+                  borderRadius: "16px",
+                  height: "24px",
+                  whiteSpace: "nowrap",
+                  padding: "4px 8px",
+                  maxWidth: "max-content"
+                })}
+              >
+                {item.Status}
+              </Stack>
+            );
 
-class ItemList extends React.Component<IItemListProps, IListItemState> {
-  constructor(props: IItemListProps, state: IListItemState) {
-    super(props);
+          case "Completed":
+            return (
+              <Stack
+                horizontalAlign="center"
+                verticalAlign="center"
+                className={mergeStyles({
+                  backgroundColor: "#5dd4c0",
+                  color: "#006b59",
+                  borderRadius: "16px",
+                  height: "24px",
+                  whiteSpace: "nowrap",
+                  padding: "4px 8px",
+                  maxWidth: "max-content"
+                })}
+              >
+                {item.Status}
+              </Stack>
+            );
 
-    this.state = {
-      items: [],
-      errorMessage: null
-    };
-  }
+          case "Active":
+            return (
+              <Stack
+                horizontalAlign="center"
+                verticalAlign="center"
+                className={mergeStyles({
+                  backgroundColor: "#8ac2ec",
+                  color: "#235a85",
+                  borderRadius: "16px",
+                  height: "24px",
+                  whiteSpace: "nowrap",
+                  padding: "4px 8px",
+                  maxWidth: "max-content"
+                })}
+              >
+                {item.Status}
+              </Stack>
+            );
 
-  private async _getListData(): Promise<ISPListItem[]> {
-    try {
-      const response = await this.props.spHttpClient.get(
-        `${this.props.webUrl}/_api/web/lists/getByTitle('To do list')/items?$select=Title,Status`,
-        SPHttpClient.configurations.v1
-      );
+          case "Overdue":
+            return (
+              <Stack
+                horizontalAlign="center"
+                verticalAlign="center"
+                className={mergeStyles({
+                  backgroundColor: "#f6a89a",
+                  color: "#903e2f",
+                  borderRadius: "16px",
+                  height: "24px",
+                  whiteSpace: "nowrap",
+                  padding: "4px 8px",
+                  maxWidth: "max-content"
+                })}
+              >
+                {item.Status}
+              </Stack>
+            );
 
-      if (!response.ok) {
-        const responseText = await response.text();
-        throw new Error(responseText);
+          default:
+            return <Stack>{item.Status}</Stack>;
+        }
       }
+    },
+    {
+      key: "column4",
+      name: "Description",
+      fieldName: "Description",
+      isMultiline: true,
+      minWidth: 100,
+      maxWidth: 200,
+      isResizable: true
+    }
+  ];
 
-      const data = await response.json();
+  const getListData = async (): Promise<void> => {
+    const LIST_NAME = "To do list";
+    const _sp: SPFI = getSP(props.context);
 
-      this.setState({ items: data.value });
-      return data.value;
+    try {
+      const response = await _sp.web.lists
+        .getByTitle(LIST_NAME)
+        .items.select(
+          "Title",
+          "Status",
+          "DueDate",
+          "FieldValuesAsText/DueDate",
+          "Description"
+        )
+        .expand("FieldValuesAsText")();
+      setItems(response);
     } catch (error) {
-      this.setState({ errorMessage: error.message });
-    }
-  }
-
-  public componentDidMount(): void {
-    this._getListData();
-  }
-
-  public render(): React.ReactElement<IItemListProps> {
-    return (
-      <>
-        <List items={this.state.items} onRenderCell={this._onRenderListItem} />
-        {this.state.errorMessage && <span>{this.state.errorMessage}</span>}
-      </>
-    );
-  }
-
-  public _itemStatus = (status: string): string => {
-    switch (status) {
-      case "Pending":
-        return styles.itemPending;
-
-      case "Completed":
-        return styles.itemCompleted;
-
-      case "Active":
-        return styles.itemActive;
-
-      case "Overdue":
-        return styles.itemOverdue;
-
-      default:
-        return styles.itemStatus;
+      setErrorMessage(error.message);
     }
   };
 
-  public _onRenderListItem = (
-    item: ISPListItem,
-    index: number
-  ): JSX.Element => {
-    return (
-      <div key={index} data-is-focusable={true}>
-        <ul className={styles.list}>
-          <li className={styles.listItem}>
-            <span>{item.Title}</span>
-            <span
-              className={`${styles.itemStatus} ${this._itemStatus(
-                item.Status
-              )}`}
-            >
-              {item.Status}
-              <Icon
-                className={styles.itemIcon}
-                iconName={`${item.Status === "Completed" ? "Completed" : null}`}
-              />
-            </span>
-          </li>
-        </ul>
-      </div>
-    );
-  };
-}
+  React.useEffect(() => {
+    getListData();
+  }, []);
 
-export default class ToDoList extends React.Component<IToDoListProps, {}> {
-  public render(): React.ReactElement<IToDoListProps> {
-    const { hasTeamsContext, userDisplayName } = this.props;
+  return (
+    <>
+      <DetailsList
+        items={items}
+        columns={columns}
+        setKey="set"
+        layoutMode={DetailsListLayoutMode.justified}
+        selectionPreservedOnEmptyClick={true}
+        ariaLabelForSelectionColumn="Toggle selection"
+        ariaLabelForSelectAllCheckbox="Toggle selection for all items"
+        checkButtonAriaLabel="select row"
+      />
+      {errorMessage && <span>{errorMessage}</span>}
+    </>
+  );
+};
 
-    return (
-      <section
-        className={`${styles.todoList} ${hasTeamsContext ? styles.teams : ""}`}
-      >
-        <h2>
-          {strings.ToDoListHeading} {escape(userDisplayName)}
-        </h2>
+const ToDoList: React.FC<IToDoListProps> = (props: IToDoListProps) => {
+  const { userDisplayName, spHttpClient, websiteUrl, context } = props;
+
+  return (
+    <Stack enableScopedSelectors tokens={ItemListStackTokens}>
+      <StackItem>
+        <Text variant={"xLarge"} nowrap block>
+          {escape(userDisplayName)} {strings.ToDoListHeading}
+        </Text>
+      </StackItem>
+      <StackItem>
         <ItemList
-          spHttpClient={this.props.spHttpClient}
-          webUrl={this.props.websiteUrl}
+          spHttpClient={spHttpClient}
+          webUrl={websiteUrl}
+          context={context}
         />
-      </section>
-    );
-  }
-}
+      </StackItem>
+      <StackItem>
+        <PrimaryButton text="Primary" />
+      </StackItem>
+    </Stack>
+  );
+};
+
+export default ToDoList;

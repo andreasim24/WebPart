@@ -10,7 +10,7 @@ import { IReadonlyTheme } from "@microsoft/sp-component-base";
 
 import * as strings from "ToDoListWebPartStrings";
 import ToDoList from "./components/ToDoList";
-import { IToDoListProps } from "./components/IToDoListProps";
+import { IToDoListProps } from "../../interfaces";
 
 export interface IToDoListWebPartProps {
   description: string;
@@ -29,7 +29,8 @@ export default class ToDoListWebPart extends BaseClientSideWebPart<IToDoListWebP
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
-        userDisplayName: this.context.pageContext.user.displayName
+        userDisplayName: this.context.pageContext.user.displayName,
+        context: this.context
       }
     );
     ReactDom.render(element, this.domElement);

@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "test-client-side-solution",
+    "name": "Todolist-client-side-solution",
     "id": "6200f6e4-6239-48d5-a92e-c9a65dc9aae1",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
@@ -16,10 +16,10 @@
     },
     "metadata": {
       "shortDescription": {
-        "default": "test description"
+        "default": "Todolist description"
       },
       "longDescription": {
-        "default": "test description"
+        "default": "Todolist description"
       },
       "screenshotPaths": [],
       "videoUrl": "",
@@ -27,14 +27,14 @@
     },
     "features": [
       {
-        "title": "test Feature",
-        "description": "The feature that activates elements of the test solution.",
+        "title": "Todolist Feature",
+        "description": "The feature that activates elements of the Todolist solution.",
         "id": "8adc42be-a01d-41dc-a4f6-0b4ca637c468",
         "version": "1.0.0.0"
       }
     ]
   },
   "paths": {
-    "zippedPackage": "solution/test.sppkg"
+    "zippedPackage": "solution/Todolist.sppkg"
   }
 }
