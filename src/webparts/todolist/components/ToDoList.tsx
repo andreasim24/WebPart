@@ -1,13 +1,12 @@
 import * as React from "react";
 import { escape } from "@microsoft/sp-lodash-subset";
 import * as strings from "ToDoListWebPartStrings";
+import styles from "./ToDoList.module.scss";
 import {
   ISPListItem,
   IItemListProps,
   IToDoListProps
 } from "../../../interfaces";
-import { getSP } from "../../../pnpjsConfig";
-import { SPFI } from "@pnp/sp";
 import {
   DetailsList,
   DetailsListLayoutMode,
@@ -15,8 +14,8 @@ import {
 } from "@fluentui/react/lib/DetailsList";
 import { Text } from "@fluentui/react/lib/Text";
 import { IStackTokens, Stack, StackItem } from "@fluentui/react/lib/Stack";
-import { mergeStyles } from "@fluentui/react/lib/Styling";
 import { PrimaryButton } from "@fluentui/react/lib/Button";
+import "@pnp/sp/lists";
 
 const ItemListStackTokens: IStackTokens = {
   childrenGap: 15,
@@ -54,78 +53,30 @@ const ItemList: React.FC<IItemListProps> = (props: IItemListProps) => {
         switch (item.Status) {
           case "Pending":
             return (
-              <Stack
-                horizontalAlign="center"
-                verticalAlign="center"
-                className={mergeStyles({
-                  backgroundColor: "#ffe092",
-                  color: "#997825",
-                  borderRadius: "16px",
-                  height: "24px",
-                  whiteSpace: "nowrap",
-                  padding: "4px 8px",
-                  maxWidth: "max-content"
-                })}
-              >
+              <span className={`${styles.ItemList} ${styles.statusPending}`}>
                 {item.Status}
-              </Stack>
+              </span>
             );
 
           case "Completed":
             return (
-              <Stack
-                horizontalAlign="center"
-                verticalAlign="center"
-                className={mergeStyles({
-                  backgroundColor: "#5dd4c0",
-                  color: "#006b59",
-                  borderRadius: "16px",
-                  height: "24px",
-                  whiteSpace: "nowrap",
-                  padding: "4px 8px",
-                  maxWidth: "max-content"
-                })}
-              >
+              <span className={`${styles.ItemList} ${styles.statusCompleted}`}>
                 {item.Status}
-              </Stack>
+              </span>
             );
 
           case "Active":
             return (
-              <Stack
-                horizontalAlign="center"
-                verticalAlign="center"
-                className={mergeStyles({
-                  backgroundColor: "#8ac2ec",
-                  color: "#235a85",
-                  borderRadius: "16px",
-                  height: "24px",
-                  whiteSpace: "nowrap",
-                  padding: "4px 8px",
-                  maxWidth: "max-content"
-                })}
-              >
+              <span className={`${styles.ItemList} ${styles.statusActive}`}>
                 {item.Status}
-              </Stack>
+              </span>
             );
 
           case "Overdue":
             return (
-              <Stack
-                horizontalAlign="center"
-                verticalAlign="center"
-                className={mergeStyles({
-                  backgroundColor: "#f6a89a",
-                  color: "#903e2f",
-                  borderRadius: "16px",
-                  height: "24px",
-                  whiteSpace: "nowrap",
-                  padding: "4px 8px",
-                  maxWidth: "max-content"
-                })}
-              >
+              <span className={`${styles.ItemList} ${styles.statusOverdue}`}>
                 {item.Status}
-              </Stack>
+              </span>
             );
 
           default:
@@ -145,12 +96,9 @@ const ItemList: React.FC<IItemListProps> = (props: IItemListProps) => {
   ];
 
   const getListData = async (): Promise<void> => {
-    const LIST_NAME = "To do list";
-    const _sp: SPFI = getSP(props.context);
-
     try {
-      const response = await _sp.web.lists
-        .getByTitle(LIST_NAME)
+      const response = await props.sp.web.lists
+        .getByTitle(props.listName)
         .items.select(
           "Title",
           "Status",
@@ -167,7 +115,7 @@ const ItemList: React.FC<IItemListProps> = (props: IItemListProps) => {
 
   React.useEffect(() => {
     getListData();
-  }, []);
+  }, [props.listName]);
 
   return (
     <>
@@ -187,7 +135,7 @@ const ItemList: React.FC<IItemListProps> = (props: IItemListProps) => {
 };
 
 const ToDoList: React.FC<IToDoListProps> = (props: IToDoListProps) => {
-  const { userDisplayName, spHttpClient, websiteUrl, context } = props;
+  const { userDisplayName, sp, listName } = props;
 
   return (
     <Stack enableScopedSelectors tokens={ItemListStackTokens}>
@@ -197,11 +145,7 @@ const ToDoList: React.FC<IToDoListProps> = (props: IToDoListProps) => {
         </Text>
       </StackItem>
       <StackItem>
-        <ItemList
-          spHttpClient={spHttpClient}
-          webUrl={websiteUrl}
-          context={context}
-        />
+        <ItemList sp={sp} listName={listName} />
       </StackItem>
       <StackItem>
         <PrimaryButton text="Primary" />

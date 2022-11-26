@@ -1,5 +1,4 @@
-import { SPHttpClient } from "@microsoft/sp-http";
-import { WebPartContext } from "@microsoft/sp-webpart-base";
+import { SPFI } from "@pnp/sp";
 
 export interface ISPListItem {
   Title: string;
@@ -15,17 +14,12 @@ export interface IListItemState {
 }
 
 export interface IToDoListProps {
-  websiteUrl: string;
-  spHttpClient: SPHttpClient;
-  isDarkTheme: boolean;
-  environmentMessage: string;
-  hasTeamsContext: boolean;
   userDisplayName: string;
-  context: WebPartContext;
+  sp: SPFI;
+  listName: string;
 }
 
 export interface IItemListProps {
-  spHttpClient: SPHttpClient;
-  webUrl: string;
-  context: WebPartContext;
+  sp: SPFI;
+  listName: string;
 }

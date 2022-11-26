@@ -11,6 +11,7 @@ declare interface IToDoListWebPartStrings {
   AppOfficeEnvironment: string;
   AppOutlookEnvironment: string;
   ToDoListHeading: string;
+  ListNameFieldLabel: string;
 }
 
 declare module "ToDoListWebPartStrings" {

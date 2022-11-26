@@ -1,15 +1,5 @@
 @import "~@fluentui/react/dist/sass/References.scss";
 
-.todoList {
-  overflow: hidden;
-  padding: 1em;
-  color: "[theme:bodyText, default: #323130]";
-  color: var(--bodyText);
-  &.teams {
-    font-family: $ms-font-family-fallbacks;
-  }
-}
-
 .ItemList {
   border-radius: 16px;
   height: 24px;
@@ -19,6 +9,21 @@
 }
 
 .statusPending {
-  background-color: "#ffe092";
-  color: "#997825";
+  background-color: "[theme: warning, default:#fff4ce]";
+  color: "[theme: OrangeYellow20, default:#986f0b]";
+}
+
+.statusCompleted {
+  background-color: "[theme: Success, default: #dff6dd]";
+  color: "[theme: Success Icon, default: #107c10]";
+}
+
+.statusActive {
+  background-color: "[theme: Gray10, default: #faf9f8]";
+  color: "[theme: CyanBlue20, default: #004e8c]";
+}
+
+.statusOverdue {
+  background-color: "[theme: Severe Warning, default: #fed9cc]";
+  color: "[theme: red,default: #d13438]";
 }

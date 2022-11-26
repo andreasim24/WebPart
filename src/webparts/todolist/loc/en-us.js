@@ -15,6 +15,7 @@ define([], function () {
     AppTeamsTabEnvironment: "The app is running in Microsoft Teams",
     AppOfficeEnvironment: "The app is running in office.com",
     AppOutlookEnvironment: "The app is running in Outlook",
-    ToDoListHeading: "To do list"
+    ToDoListHeading: "To do list",
+    ListNameFieldLabel: "Site Lists"
   };
 });
