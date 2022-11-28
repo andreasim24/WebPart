@@ -95,10 +95,10 @@ const ItemList: React.FC<IItemListProps> = (props: IItemListProps) => {
     }
   ];
 
-  const getListData = async (): Promise<void> => {
+  const getListData = async (listName: string): Promise<void> => {
     try {
       const response = await props.sp.web.lists
-        .getByTitle(props.listName)
+        .getByTitle(listName)
         .items.select(
           "Title",
           "Status",
@@ -114,7 +114,7 @@ const ItemList: React.FC<IItemListProps> = (props: IItemListProps) => {
   };
 
   React.useEffect(() => {
-    getListData();
+    getListData(props.listName);
   }, [props.listName]);
 
   return (
