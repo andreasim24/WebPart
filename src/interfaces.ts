@@ -8,11 +8,6 @@ export interface ISPListItem {
   Description: string;
 }
 
-export interface IListItemState {
-  items: ISPListItem[];
-  errorMessage: any;
-}
-
 export interface IToDoListProps {
   userDisplayName: string;
   sp: SPFI;

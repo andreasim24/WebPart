@@ -9,21 +9,21 @@
 }
 
 .statusPending {
-  background-color: "[theme: warning, default:#fff4ce]";
-  color: "[theme: OrangeYellow20, default:#986f0b]";
+  background-color: "[theme: neutralLight, default:#edebe9]";
+  color: "[theme: orangeLighter, default:#ff8c00]";
 }
 
 .statusCompleted {
-  background-color: "[theme: Success, default: #dff6dd]";
-  color: "[theme: Success Icon, default: #107c10]";
+  background-color: "[theme: neutralLight, default: #edebe9]";
+  color: "[theme: green, default: #107c10]";
 }
 
 .statusActive {
-  background-color: "[theme: Gray10, default: #faf9f8]";
-  color: "[theme: CyanBlue20, default: #004e8c]";
+  background-color: "[theme: neutralLight, default: #edebe9]";
+  color: "[theme: blue, default: #0078d4]";
 }
 
 .statusOverdue {
-  background-color: "[theme: Severe Warning, default: #fed9cc]";
+  background-color: "[theme: neutralLight, default: #edebe9]";
   color: "[theme: red,default: #d13438]";
 }
