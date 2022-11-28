@@ -1,95 +1,29 @@
 @import "~@fluentui/react/dist/sass/References.scss";
 
-.todoList {
-  overflow: hidden;
-  padding: 1em;
-  color: "[theme:bodyText, default: #323130]";
-  color: var(--bodyText);
-  &.teams {
-    font-family: $ms-font-family-fallbacks;
-  }
+.ItemList {
+  border-radius: 16px;
+  height: 24px;
+  white-space: "nowrap";
+  padding: 4px 8px;
+  max-width: max-content;
 }
 
-.welcome {
-  text-align: center;
+.statusPending {
+  background-color: "[theme: neutralLight, default:#edebe9]";
+  color: "[theme: orangeLighter, default:#ff8c00]";
 }
 
-.welcomeImage {
-  width: 100%;
-  max-width: 420px;
+.statusCompleted {
+  background-color: "[theme: neutralLight, default: #edebe9]";
+  color: "[theme: green, default: #107c10]";
 }
 
-.links {
-  a {
-    text-decoration: none;
-    color: "[theme:link, default:#03787c]";
-    color: var(
-      --link
-    ); // note: CSS Custom Properties support is limited to modern browsers only
-
-    &:hover {
-      text-decoration: underline;
-      color: "[theme:linkHovered, default: #014446]";
-      color: var(
-        --linkHovered
-      ); // note: CSS Custom Properties support is limited to modern browsers only
-    }
-  }
+.statusActive {
+  background-color: "[theme: neutralLight, default: #edebe9]";
+  color: "[theme: blue, default: #0078d4]";
 }
 
-.list {
-  color: #333333;
-  font-size: 14px;
-  font-weight: normal;
-  box-sizing: border-box;
-  margin: 10px;
-  padding: 10px;
-  line-height: 50px;
-  list-style-type: none;
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
-}
-
-.listItem {
-  color: #333333;
-  vertical-align: center;
-  box-sizing: border-box;
-  box-shadow: none;
-  *zoom: 1;
-  padding: 9px 28px 3px;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.itemStatus {
-  width: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 1rem;
-}
-
-.itemPending {
-  background-color: rgb(159, 159, 8);
-  color: white;
-}
-
-.itemCompleted {
-  background-color: rgb(40, 150, 40);
-  color: white;
-}
-
-.itemActive {
-  background-color: rgba(40, 40, 212, 0.84);
-  color: white;
-}
-
-.itemOverdue {
-  background-color: rgba(200, 74, 36, 0.84);
-  color: white;
-}
-
-.itemIcon {
-  margin-left: 4px;
+.statusOverdue {
+  background-color: "[theme: neutralLight, default: #edebe9]";
+  color: "[theme: red,default: #d13438]";
 }

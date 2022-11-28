@@ -28,7 +28,7 @@
       "description": { "default": "ToDoList description" },
       "officeFabricIconFontName": "Page",
       "properties": {
-        "description": "Description"
+        "listName": "To do list"
       }
     }
   ]
